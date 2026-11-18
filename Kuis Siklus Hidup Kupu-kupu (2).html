@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kuis Siklus Hidup Kupu-kupu</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e8f7d4;--card:#fff;--ink:#2b3a1f;--soft:#5f7350;--line:#bfe29a;--brand:#ff7a59;--brand2:#ffb703;--ok:#2e9e4f;--okbg:#d9f5df;--no:#d6453d;--nobg:#ffe1de;--sky:#cdeefb;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c2a14;--card:#273a1c;--ink:#f1f7e6;--soft:#b5cba0;--line:#496a33;--okbg:#1f4a2b;--nobg:#5a2622;--sky:#24485a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1c2a14;--card:#273a1c;--ink:#f1f7e6;--soft:#b5cba0;--line:#496a33;--okbg:#1f4a2b;--nobg:#5a2622;--sky:#24485a;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:'Baloo 2','Comic Sans MS',system-ui,sans-serif;font-size:19px;line-height:1.35;min-height:100%}
+main{max-width:640px;margin:0 auto;padding:16px}
+h1{font-size:30px;font-weight:800;margin:4px 0 2px;text-align:center}
+.sub{text-align:center;color:var(--soft);margin:0 0 12px}
+.bar{height:16px;background:var(--card);border:3px solid var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand2),var(--brand));transition:width .4s}
+.meta{display:flex;justify-content:space-between;font-weight:700;margin:6px 4px 10px}
+.card{background:var(--card);border:3px solid var(--line);border-radius:28px;padding:16px}
+.pic{background:var(--sky);border-radius:22px;padding:8px;display:flex;justify-content:center;gap:8px;margin-bottom:12px}
+.pic svg{width:100%;max-width:260px;height:auto}
+.pic.two svg{max-width:170px}
+.q{font-size:22px;font-weight:700;margin:0 0 12px}
+.opts{display:grid;gap:10px}
+.opts.img{grid-template-columns:1fr 1fr}
+.opt{font:inherit;font-weight:700;color:var(--ink);background:var(--card);border:3px solid var(--line);border-radius:20px;padding:12px 14px;text-align:left;cursor:pointer;min-height:56px;transition:transform .1s}
+.opt:active{transform:scale(.97)}
+.opt:focus-visible,.go:focus-visible{outline:4px solid var(--brand);outline-offset:2px}
+.opts.img .opt{padding:6px;background:var(--sky)}
+.opts.img svg{width:100%;height:auto;display:block}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}
+.opt.no{background:var(--nobg);border-color:var(--no)}
+.opt[disabled]{cursor:default}
+.fb{margin-top:12px;padding:12px 14px;border-radius:18px;font-weight:500}
+.fb b{display:block;font-size:21px}
+.fb.ok{background:var(--okbg)}.fb.no{background:var(--nobg)}
+.go{font:inherit;font-weight:800;font-size:21px;margin-top:12px;width:100%;border:0;border-radius:99px;padding:12px;color:#3a2200;background:linear-gradient(90deg,var(--brand2),var(--brand));cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.18)}
+.end{text-align:center}
+.end svg{width:200px;max-width:70%;height:auto}
+.stars{font-size:44px;letter-spacing:6px}
+.score{font-size:48px;font-weight:800;color:var(--brand)}
+.fl{display:block;font-weight:700;margin-bottom:10px}
+.fl input{display:block;width:100%;margin-top:4px;font:inherit;font-size:20px;padding:10px 14px;border:3px solid var(--line);border-radius:16px;background:var(--bg);color:var(--ink)}
+.fl input:focus-visible{outline:4px solid var(--brand);outline-offset:2px}
+.fe{color:var(--no);font-weight:700;min-height:24px}
+.id{background:var(--sky);border-radius:18px;padding:8px 12px;margin:0 0 10px;font-weight:700;text-align:left}
+.rv{text-align:left;background:var(--nobg);border-radius:18px;padding:12px 14px;margin:10px 0;font-size:17px}
+.rv ul{margin:6px 0 0;padding-left:20px}.rv li{margin-bottom:8px}
+.meta span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:8px}
+@keyframes sh{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.shake{animation:sh .4s}
+.tt{width:100%;border-collapse:collapse;font-size:16px}
+.tt th,.tt td{text-align:left;padding:6px 8px;border-bottom:2px solid var(--line)}
+@media (prefers-reduced-motion:reduce){.shake{animation:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<h1>Kuis Kupu-kupu</h1>
+<p class="sub">Ayo uji pengetahuanmu tentang siklus hidup kupu-kupu!</p>
+<div class="bar"><i id="pb"></i></div>
+<div class="meta"><span id="no"></span><span id="sc"></span></div>
+<div class="card" id="box"></div>
+<button class="go" id="tg" hidden style="margin-top:16px">Lihat skor murid (khusus guru)</button>
+</main>
+<script>
+var G={
+leaf:'<path d="M6 80Q60 52 114 80Q60 100 6 80Z" fill="#6cc24a"/><path d="M18 80Q60 66 102 80" stroke="#4a9a32" stroke-width="2" fill="none"/>',
+egg:'<g fill="#fff3c4" stroke="#f0c75e" stroke-width="2"><ellipse cx="42" cy="66" rx="8" ry="10"/><ellipse cx="60" cy="62" rx="8" ry="10"/><ellipse cx="78" cy="67" rx="8" ry="10"/></g><g fill="#fff"><circle cx="39" cy="62" r="2"/><circle cx="57" cy="58" r="2"/><circle cx="75" cy="63" r="2"/></g>',
+larva:'<g stroke="#4a9a32" stroke-width="2"><circle cx="24" cy="66" r="9" fill="#9be15d"/><circle cx="38" cy="64" r="10" fill="#7acb3f"/><circle cx="53" cy="63" r="11" fill="#9be15d"/><circle cx="69" cy="63" r="11" fill="#7acb3f"/><circle cx="87" cy="58" r="14" fill="#b6ef7a"/></g><circle cx="82" cy="55" r="3.5" fill="#fff"/><circle cx="93" cy="55" r="3.5" fill="#fff"/><circle cx="83" cy="55" r="1.8" fill="#222"/><circle cx="94" cy="55" r="1.8" fill="#222"/><path d="M82 63Q88 68 94 63" stroke="#c0392b" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="76" cy="62" r="2.5" fill="#ff9fb2"/><path d="M86 45L82 37M91 45L96 37" stroke="#4a9a32" stroke-width="2" stroke-linecap="round"/>',
+pupa:'<path d="M8 16H112" stroke="#8b5a2b" stroke-width="7" stroke-linecap="round"/><path d="M60 18V34" stroke="#6b8e3a" stroke-width="3"/><ellipse cx="60" cy="60" rx="18" ry="28" fill="#8fd16a" stroke="#4a9a32" stroke-width="3"/><path d="M44 50Q60 58 76 50M43 64Q60 72 77 64M48 78Q60 84 72 78" stroke="#4a9a32" stroke-width="2.5" fill="none"/><g fill="#ffd166"><circle cx="60" cy="42" r="3"/><circle cx="60" cy="56" r="3"/><circle cx="60" cy="70" r="3"/></g><circle cx="52" cy="40" r="3" fill="#fff" opacity=".7"/>',
+bf:'<g transform="rotate(-18 40 40)"><ellipse cx="38" cy="38" rx="30" ry="22" fill="#ff8fb1" stroke="#d6457a" stroke-width="2"/></g><g transform="rotate(18 82 40)"><ellipse cx="82" cy="38" rx="30" ry="22" fill="#ffb347" stroke="#d98200" stroke-width="2"/></g><ellipse cx="44" cy="68" rx="19" ry="15" fill="#ffd166" stroke="#d9a400" stroke-width="2"/><ellipse cx="76" cy="68" rx="19" ry="15" fill="#8ecae6" stroke="#3b8fb5" stroke-width="2"/><g fill="#fff"><circle cx="30" cy="38" r="5"/><circle cx="48" cy="34" r="3"/><circle cx="90" cy="38" r="5"/><circle cx="72" cy="34" r="3"/></g><ellipse cx="60" cy="52" rx="5" ry="26" fill="#5b3a29"/><circle cx="60" cy="24" r="7" fill="#5b3a29"/><path d="M57 19Q50 6 44 8M63 19Q70 6 76 8" stroke="#5b3a29" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="58" cy="23" r="1.6" fill="#fff"/><circle cx="62" cy="23" r="1.6" fill="#fff"/>',
+flower:'<path d="M60 70V100" stroke="#4a9a32" stroke-width="4"/><g fill="#ff5d8f"><circle cx="60" cy="52" r="10"/><circle cx="48" cy="64" r="10"/><circle cx="72" cy="64" r="10"/><circle cx="50" cy="48" r="10"/><circle cx="70" cy="48" r="10"/><circle cx="60" cy="72" r="10"/></g><circle cx="60" cy="60" r="9" fill="#ffd166"/>'
+};
+function sv(i,s){return '<svg viewBox="0 0 120 100" role="img" aria-hidden="true">'+(s?'<g transform="translate('+(60-60*s)+' '+(50-50*s)+') scale('+s+')">'+i+'</g>':i)+'</svg>'}
+var P={
+egg:function(){return sv(G.leaf+G.egg)},
+larva:function(){return sv(G.leaf+G.larva)},
+pupa:function(){return sv(G.pupa)},
+bf:function(){return sv(G.bf)},
+bfl:function(){return sv('<g transform="translate(30 -14) scale(.55)">'+G.bf+'</g><g transform="translate(0 6)">'+G.flower+'</g>')},
+eat:function(){return sv(G.leaf+'<g transform="translate(-10 0)">'+G.larva+'</g><path d="M96 72Q104 66 108 74Q102 80 96 72Z" fill="#fff" opacity=".0"/>')}
+};
+var Q=[
+{p:['larva'],q:'Hewan lucu ini sedang makan daun. Ia berada di tahap ....',o:['Telur','Larva (ulat)','Pupa (kepompong)','Kupu-kupu dewasa'],a:1,w:'Larva atau ulat bertubuh lunak, merayap, dan makan daun terus-menerus.'},
+{p:['pupa'],q:'Tubuhnya terbungkus, menempel di ranting, dan tidak makan. Ini tahap ....',o:['Telur','Larva (ulat)','Pupa (kepompong)','Kupu-kupu dewasa'],a:2,w:'Pupa atau kepompong tidak makan dan hampir tidak bergerak. Tubuhnya berubah di dalamnya.'},
+{p:['bfl'],q:'Kupu-kupu dewasa terbang ke bunga untuk minum ....',o:['Air got','Nektar','Daun','Getah kayu'],a:1,w:'Kupu-kupu dewasa terbang dan minum nektar bunga.'},
+{i:['larva','egg','bf','pupa'],q:'Pilih gambar telur kupu-kupu!',a:1,w:'Telur kecil, bulat atau lonjong, dan diletakkan induk pada daun.'},
+{i:['pupa','bf','larva','egg'],q:'Pilih gambar tahap KEDUA dalam siklus hidup kupu-kupu!',a:2,w:'Urutannya: telur, larva (ulat), pupa, lalu kupu-kupu dewasa. Tahap kedua adalah larva.'},
+{p:['eat'],q:'Mengapa ulat makan banyak sekali daun sebelum menjadi kepompong?',o:['Supaya warnanya menjadi cantik','Untuk menyimpan tenaga, karena pupa tidak makan','Supaya langsung bisa terbang tinggi','Karena daun berubah jadi sayap'],a:1,w:'Saat menjadi pupa ia tidak makan, jadi ulat menyimpan banyak tenaga lebih dulu.'},
+{p:['larva','bf'],two:1,q:'Apa perbedaan ulat (kiri) dan kupu-kupu dewasa (kanan)?',o:['Ulat terbang dan minum nektar, kupu-kupu merayap dan makan daun','Ulat merayap dan makan daun, kupu-kupu terbang dan minum nektar','Keduanya merayap dan makan daun','Keduanya diam dan tidak makan'],a:1,w:'Bentuk tubuh, makanan, dan cara bergeraknya berbeda.'},
+{p:['egg'],q:'Urutan siklus hidup kupu-kupu yang benar adalah ....',o:['Telur, pupa, larva, kupu-kupu','Larva, telur, pupa, kupu-kupu','Telur, larva, pupa, kupu-kupu','Telur, larva, kupu-kupu, pupa'],a:2,w:'Telur, larva (ulat), pupa (kepompong), lalu kupu-kupu dewasa. Setelah itu kupu-kupu bertelur lagi.'}
+];
+var i=0,sc=0,done=false,wr=[],me={n:'',k:'',m:'IPAS'};
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var box=document.getElementById('box');
+var DB=null;
+if(window.claude&&claude.use){
+  claude.use('db').then(function(d){DB=d}).catch(function(){});
+  claude.use('user').then(function(u){return u&&u.canEdit()}).then(function(ok){if(ok)$('tg').hidden=false}).catch(function(){});
+}
+function $(id){return document.getElementById(id)}
+function mix(){Q.forEach(function(q){var arr=q.o||q.i,c=arr[q.a],o=arr.slice();for(var k=o.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=o[k];o[k]=o[j];o[j]=t}if(q.o)q.o=o;else q.i=o;q.a=o.indexOf(c)})}
+function render(){
+  if(i===0)mix();
+  var q=Q[i];done=false;
+  $('pb').style.width=(i/Q.length*100)+'%';
+  $('no').textContent=(me.n?me.n+' \u2022 ':'')+'Soal '+(i+1)+' dari '+Q.length;
+  $('sc').textContent='Bintang: '+sc;
+  var h='';
+  if(q.p){h+='<div class="pic'+(q.two?' two':'')+'">'+q.p.map(function(k){return P[k]()}).join('')+'</div>'}
+  h+='<p class="q">'+q.q+'</p>';
+  if(q.i){h+='<div class="opts img">'+q.i.map(function(k,n){return '<button class="opt" data-n="'+n+'" aria-label="Gambar '+(n+1)+'">'+P[k]()+'</button>'}).join('')+'</div>'}
+  else{h+='<div class="opts">'+q.o.map(function(t,n){return '<button class="opt" data-n="'+n+'">'+t+'</button>'}).join('')+'</div>'}
+  h+='<div id="fb"></div>';
+  box.innerHTML=h;
+  var b=box.querySelectorAll('.opt');
+  for(var k=0;k<b.length;k++)b[k].onclick=pick;
+}
+function pick(e){
+  if(done)return;done=true;
+  var n=+e.currentTarget.getAttribute('data-n'),q=Q[i],b=box.querySelectorAll('.opt'),good=n===q.a;
+  for(var k=0;k<b.length;k++){b[k].disabled=true}
+  b[q.a].classList.add('ok');
+  if(!good){b[n].classList.add('no');b[n].classList.add('shake')}
+  if(good)sc++;
+  $('sc').textContent='Bintang: '+sc;
+  var last=i===Q.length-1;
+  var ca=q.o?q.o[q.a]:'gambar nomor '+(q.a+1);if(!good)wr.push({q:q.q,ca:ca,w:q.w});
+  $('fb').innerHTML='<div class="fb '+(good?'ok':'no')+'"><b>'+(good?'Hore, benar! \u2B50':'Ups, belum tepat. Tidak apa-apa, ayo belajar!')+'</b>'+(good?'':'Jawaban yang benar: <u>'+ca+'</u>.<br>')+q.w+'</div><button class="go" id="nx">'+(last?'Lihat hasil':'Lanjut')+'</button>';
+  $('nx').focus();
+  $('nx').onclick=function(){i++;i<Q.length?render():finish()};
+}
+function finish(){
+  $('pb').style.width='100%';
+  $('no').textContent='Selesai';
+  var s=Math.round(sc/Q.length*100),st=sc>=7?3:sc>=5?2:1;
+  var msg=sc>=7?'Luar biasa! Kamu ahli kupu-kupu!':sc>=5?'Bagus sekali! Sedikit lagi sempurna.':'Ayo belajar lagi, kamu pasti bisa!';
+  var rv=wr.length?'<div class="rv"><b>Yang perlu dipelajari lagi:</b><ul>'+wr.map(function(x){return '<li>'+x.q+'<br>Jawaban benar: <b>'+x.ca+'</b></li>'}).join('')+'</ul></div>':'<p><b>Tidak ada yang salah. Sempurna!</b></p>';
+  box.innerHTML='<div class="end"><div class="id">Nama: '+esc(me.n)+'<br>Kelas: '+esc(me.k||'-')+' \u2022 Mapel: '+esc(me.m||'-')+'</div><div class="pic">'+P.bf()+'</div><div class="stars">'+'\u2B50'.repeat(st)+'</div><div class="score">'+s+'</div><p class="q">'+msg+'</p><p>Kamu menjawab benar '+sc+' dari '+Q.length+' soal.</p>'+rv+'<p id="ks" class="fb ok">Mengirim skor ke guru...</p><button class="go" id="cp">Salin hasil</button><button class="go" id="re">Main lagi</button></div>';
+  $('re').onclick=function(){i=0;sc=0;wr=[];render()};
+  var txt='Hasil kuis kupu-kupu\nNama: '+me.n+'\nKelas: '+me.k+'\nMapel: '+me.m+'\nSkor: '+s+' (benar '+sc+' dari '+Q.length+')';
+  $('cp').onclick=function(){
+    var ta=$('ta');
+    if(!ta){ta=document.createElement('textarea');ta.id='ta';ta.readOnly=true;ta.rows=5;ta.value=txt;ta.style.cssText='width:100%;margin-top:10px;font:inherit;font-size:17px;padding:10px;border:3px solid var(--line);border-radius:16px;background:var(--bg);color:var(--ink)';$('cp').parentNode.insertBefore(ta,$('re'))}
+    ta.focus();ta.select();try{ta.setSelectionRange(0,txt.length)}catch(e){}
+    var ok=false;try{ok=document.execCommand('copy')}catch(e){}
+    $('cp').textContent=ok?'Tersalin! Tempel di WhatsApp':'Tahan teks di atas, lalu pilih Salin';
+  };
+  function ks(t,ok){var e=$('ks');e.className='fb '+(ok?'ok':'no');e.textContent=t}
+  if(!DB){ks('Skor belum bisa terkirim otomatis. Tekan Salin hasil lalu kirim ke guru.',false)}
+  else{DB.collection('hasil').add({nama:me.n,kelas:me.k,mapel:me.m,skor:s,benar:sc,total:Q.length,waktu:new Date().toISOString()}).then(function(){ks('Skormu sudah terkirim ke guru!',true)},function(){ks('Skor belum bisa terkirim. Tekan Salin hasil lalu kirim ke guru.',false)})}
+}
+function start(){
+  $('pb').style.width='0';$('no').textContent='';$('sc').textContent='';
+  box.innerHTML='<div class="pic">'+P.bf()+'</div><p class="q">Isi identitasmu dulu ya!</p><label class="fl">Nama<input id="fn" maxlength="40" autocomplete="off" placeholder="Tulis namamu"></label><label class="fl">Kelas<input id="fk" maxlength="10" autocomplete="off" placeholder="Contoh: III A"></label><label class="fl">Mata pelajaran<input id="fm" maxlength="30" autocomplete="off" value="IPAS"></label><div class="fe" id="fe"></div><button class="go" id="st">Mulai kuis</button>';
+  $('st').onclick=function(){var n=$('fn').value.trim();if(!n){$('fe').textContent='Namamu belum diisi.';$('fn').focus();return}
+    me.n=n;me.k=$('fk').value.trim();me.m=$('fm').value.trim();i=0;sc=0;wr=[];render()};
+}
+start();
+$('tg').onclick=showT;
+function showT(){
+  box.innerHTML='<p class="q">Skor murid</p><div id="tb">Memuat...</div><button class="go" id="bk">Kembali</button>';
+  $('bk').onclick=function(){start()};
+  if(!DB){$('tb').textContent='Data belum tersedia di tampilan ini.';return}
+  DB.collection('hasil').orderBy('waktu','desc').limit(200).get().then(function(sn){
+    if(sn.empty){$('tb').textContent='Belum ada murid yang mengerjakan.';return}
+    var t=0,r='';
+    sn.docs.forEach(function(d){var x=d.data();t+=x.skor||0;r+='<tr><td>'+esc(x.nama)+'</td><td>'+esc(x.kelas||'-')+'</td><td>'+esc(x.skor)+'</td><td>'+esc(new Date(x.waktu).toLocaleString('id-ID',{dateStyle:'short',timeStyle:'short'}))+'</td></tr>'});
+    $('tb').innerHTML='<p>Jumlah murid: <b>'+sn.size+'</b> \u2022 Rata-rata: <b>'+Math.round(t/sn.size)+'</b></p><div style="overflow-x:auto"><table class="tt"><tr><th>Nama</th><th>Kelas</th><th>Skor</th><th>Waktu</th></tr>'+r+'</table></div>';
+  },function(){$('tb').textContent='Tidak bisa memuat skor.'});
+}
+</script>
+</body>
+</html>
